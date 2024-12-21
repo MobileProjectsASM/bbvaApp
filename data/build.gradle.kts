@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    kotlin("kapt")
 }
 
 android {
@@ -34,6 +35,16 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    //DI
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
+    //Gson
+    implementation(libs.gson)
+
+    //Rest services
+    implementation(libs.retrofit)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

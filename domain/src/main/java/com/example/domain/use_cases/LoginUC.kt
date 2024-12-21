@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class LoginUC @Inject constructor(
     private val logger: Logger,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : UseCaseSync<User, LoginUC.Params>() {
     companion object {
         const val TAG = "LoginUC"
@@ -25,7 +25,12 @@ class LoginUC @Inject constructor(
 
     override suspend fun run(params: Params): Result<User> {
         return try {
-            authRepository.loginWithCredentials(params.userName, params.email, params.password)
+            val loginResult = authRepository.loginWithCredentials(params.userName, params.email, params.password)
+            if (loginResult is Result.Unsuccess) return loginResult
+            val user = (loginResult as Result.Success).data
+            val saveSessionResult = authRepository.saveSession(user)
+            if (saveSessionResult is Result.Unsuccess) return Result.Unsuccess(saveSessionResult.failure)
+            Result.Success(user)
         } catch(e: Exception) {
             logger.logE(TAG, e)
             Result.Unsuccess(Failure.OtherError(ErrorType.UNKNOWN))
