@@ -10,9 +10,3 @@ sealed class Result<out T> {
     val isUnsuccess get() = this is Unsuccess<T>
 
 }
-
-fun <T, S> Result.Unsuccess<T>.toFailure(): Result.Unsuccess<S> = Result.Unsuccess(this.failure)
-fun <T> Result<T>.asSuccess(): Result.Success<T> = this as Result.Success<T>
-fun <T> Result<T>.asFailure(): Result.Unsuccess<T> = this as Result.Unsuccess<T>
-fun <T> Failure.toFailure(): Result.Unsuccess<T> = Result.Unsuccess(this)
-fun <T> T.toSuccessful(): Result.Success<T> = Result.Success(this)
