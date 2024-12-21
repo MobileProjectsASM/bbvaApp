@@ -1,4 +1,4 @@
-package com.example.bbvaapp
+package com.example.bbvaapp.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
