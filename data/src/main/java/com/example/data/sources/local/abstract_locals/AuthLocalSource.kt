@@ -1,4 +1,4 @@
-package com.example.data.sources.local.interfaces
+package com.example.data.sources.local.abstract_locals
 
 import com.example.domain.entities.User
 
