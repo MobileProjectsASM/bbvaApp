@@ -9,4 +9,5 @@ interface AuthRepository {
     suspend fun thereIsActiveSession(): Result<Boolean>
     suspend fun saveSession(user: User): Result<Completed>
     suspend fun closeSession(): Result<Completed>
+    suspend fun fetchSession(): Result<User>
 }

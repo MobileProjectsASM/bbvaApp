@@ -62,4 +62,14 @@ class AuthRepositoryImpl @Inject constructor(
             Result.Unsuccess(Failure.OtherError(ErrorType.UNKNOWN))
         }
     }
+
+    override suspend fun fetchSession(): Result<User> {
+        return try {
+            val user = authLocalSource.fetchSession()
+            Result.Success(user)
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            Result.Unsuccess(Failure.OtherError(ErrorType.UNKNOWN))
+        }
+    }
 }

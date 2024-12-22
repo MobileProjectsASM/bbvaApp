@@ -6,4 +6,5 @@ interface AuthLocalSource {
     suspend fun saveSession(user: User)
     suspend fun isSessionActive(): Boolean
     suspend fun closeSession()
+    suspend fun fetchSession(): User
 }
