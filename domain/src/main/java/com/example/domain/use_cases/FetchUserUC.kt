@@ -8,8 +8,9 @@ import com.example.domain.repositories.AuthRepository
 import com.example.domain.repositories.MediaRepository
 import com.example.domain.use_cases.base.UseCaseSync
 import com.example.domain.utils.Logger
+import javax.inject.Inject
 
-class FetchUserUC(
+class FetchUserUC @Inject constructor(
     private val logger: Logger,
     private val authRepository: AuthRepository,
     private val mediaRepository: MediaRepository
