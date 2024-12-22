@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">bbvaApp</string>
+    <string name="base_url_auth">https://private-6eaf4c-examenbbva.apiary-mock.com/</string>
+    <string name="preferences_file_key_session">SessionInfo</string>
 </resources>

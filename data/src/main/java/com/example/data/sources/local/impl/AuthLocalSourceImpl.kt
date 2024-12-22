@@ -4,8 +4,9 @@ import android.content.SharedPreferences
 import com.example.data.sources.local.abstract_locals.AuthLocalSource
 import com.example.domain.entities.User
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class AuthLocalSourceImpl constructor(
+class AuthLocalSourceImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson,
 ): AuthLocalSource {
