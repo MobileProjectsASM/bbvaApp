@@ -7,6 +7,6 @@ import com.example.domain.utils.Completed
 interface AuthRepository {
     suspend fun loginWithCredentials(userName: String, email: String, password: String): Result<User>
     suspend fun thereIsActiveSession(): Result<Boolean>
-    suspend fun saveSession(sessionId: User): Result<Completed>
+    suspend fun saveSession(user: User): Result<Completed>
     suspend fun closeSession(): Result<Completed>
 }
