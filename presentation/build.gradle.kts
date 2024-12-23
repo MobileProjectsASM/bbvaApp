@@ -45,6 +45,9 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
 
+    //Splash Screen
+    implementation(libs.splash.screen)
+
     //DI
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

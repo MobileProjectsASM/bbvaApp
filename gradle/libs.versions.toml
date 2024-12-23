@@ -18,6 +18,7 @@ jetbrainsKotlinJvm = "2.0.0"
 hilt = "2.51.1"
 gson = "2.11.0"
 retrofit = "2.11.0"
+splshScreen = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splshScreen"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
