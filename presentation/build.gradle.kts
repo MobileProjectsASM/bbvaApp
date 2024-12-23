@@ -48,6 +48,8 @@ dependencies {
 
     implementation(libs.material)
 
+    implementation(libs.accompanist.systemuicontroller)
+
     //ICONS
     implementation(libs.androidx.material.icons.extended)
 
