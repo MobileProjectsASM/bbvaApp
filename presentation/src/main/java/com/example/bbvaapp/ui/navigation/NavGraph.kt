@@ -44,7 +44,11 @@ fun MainNavigation(
                 sessionVM.fetchSessionInfo()
             }
             BackgroundPage {
-                DashboardView()
+                DashboardView(
+                    sessionVM = sessionVM,
+                    navController = navigationController,
+                    messageResolver = messageResolver
+                )
             }
         }
     }

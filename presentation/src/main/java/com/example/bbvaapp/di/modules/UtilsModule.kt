@@ -22,22 +22,34 @@ import javax.inject.Singleton
 class UtilsModule {
 
     @Provides
-    fun providesAuthClient(retrofit: Retrofit): AuthClient = retrofit.create(AuthClient::class.java)
+    fun providesAuthClient(@RetrofitLogin retrofit: Retrofit): AuthClient = retrofit.create(AuthClient::class.java)
 
     @Provides
-    fun providesMediaClient(retrofit: Retrofit): MediaClient = retrofit.create(MediaClient::class.java)
+    fun providesMediaClient(@RetrofitMedia retrofit: Retrofit): MediaClient = retrofit.create(MediaClient::class.java)
 
     @Provides
     fun providesSharedPreferences(@ApplicationContext context: Context) : SharedPreferences = context.getSharedPreferences(context.getString(R.string.preferences_file_key_session), Context.MODE_PRIVATE)
 
-    @Singleton
+    @RetrofitLogin
     @Provides
-    fun providesRetrofit(
+    fun providesRetrofitLogin(
         @ApplicationContext context: Context,
         okHttpClient: OkHttpClient,
         gson: Gson
     ): Retrofit = Retrofit.Builder()
         .baseUrl(context.getString(R.string.base_url_auth))
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
+
+    @RetrofitMedia
+    @Provides
+    fun providesRetrofitMedia(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient,
+        gson: Gson
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(context.getString(R.string.base_url_media))
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()

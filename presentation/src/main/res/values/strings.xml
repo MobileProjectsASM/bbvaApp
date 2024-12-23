@@ -3,6 +3,7 @@
 
     <string name="txt_ttl_login_panel">Welcome to Store!!</string>
     <string name="txt_inf_login_panel">Login to continue</string>
+    <string name="txt_ttl_info_detail_session">Info detail session</string>
     <string name="txt_label_email_login">Email</string>
     <string name="txt_label_password">Password</string>
     <string name="txt_cd_li_email">Email icon</string>
@@ -16,7 +17,7 @@
     <string name="txt_btn_ok">OK</string>
     <string name="txt_label_user_age">Age:</string>
     <string name="txt_label_user_gender">Gender:</string>
-    <string name="txt_label_user_description">Description:</string>
+    <string name="txt_label_user_description">Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="err_to_verify_session">An error occurred while verifying the session</string>
     <string name="err_empty_field">Empty field</string>
     <string name="err_min_8_characters">Must be at least 8 characters long</string>
@@ -25,10 +26,11 @@
     <string name="err_least_one_character">Must have at least one of the following characters: @$!%*?&amp;#</string>
     <string name="err_invalid_email">Invalid email</string>
     <string name="err_unknown_to_do_login">Unknown error to do login</string>
+    <string name="err_unknown_to_fetch_session_info">Error to fecth session info</string>
     <string name="err_ttl_dialog">Failure</string>
     <string name="success_inf_dialog">Successful</string>
 
     <string name="base_url_auth">https://private-6eaf4c-examenbbva.apiary-mock.com/</string>
-    <string name="base_url_media">https://dog.ceo/</string>
+    <string name="base_url_media">https://dog.ceo/api/breeds/image/</string>
     <string name="preferences_file_key_session">SessionInfo</string>
 </resources>
