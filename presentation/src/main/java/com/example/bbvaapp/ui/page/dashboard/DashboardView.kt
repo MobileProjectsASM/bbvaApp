@@ -19,11 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.bbvaapp.R
 import com.example.bbvaapp.model.CloseSessionUiState
 import com.example.bbvaapp.model.SessionInfoError
@@ -60,7 +65,13 @@ fun DashboardView(
     val sessionInfoState: SessionInfoUiState? by sessionVM.sessionInfoState.collectAsStateWithLifecycle()
     if (sessionInfoState == null) return
     when (val state = sessionInfoState as SessionInfoUiState) {
-        is SessionInfoUiState.ErrorToLoadImage -> TODO()
+        is SessionInfoUiState.ErrorToLoadImage -> Dashboard2(
+            sessionVM = sessionVM,
+            userId = state.userId,
+            userName = state.userName,
+            userGender = state.userGender,
+            userAge = state.userAge
+        )
         is SessionInfoUiState.Fail -> when (val error = state.sessionInfoError) {
             is SessionInfoError.ServerError -> MessageDialog(
                 modifier = Modifier
@@ -128,6 +139,46 @@ fun Dashboard(
 }
 
 @Composable
+fun Dashboard2(
+    sessionVM: SessionVM,
+    userId: String,
+    userName: String,
+    userGender: Gender,
+    userAge: Int
+) {
+    var showErrorImage by rememberSaveable { mutableStateOf(true) }
+
+    if (showErrorImage) {
+        MessageDialog(
+            modifier = Modifier
+                .padding(vertical = 20.dp)
+                .height(250.dp),
+            image = painterResource(id = R.drawable.failure),
+            titleDialog = stringResource(R.string.err_ttl_dialog),
+            text = stringResource(R.string.err_to_fetch_image)
+        ) {
+            showErrorImage = false
+        }
+    }
+
+    Dashboard(
+        sessionVM = sessionVM,
+        userId = userId,
+        profileImage = ImageRequest.Builder(LocalContext.current)
+            .data(when (userGender) {
+                Gender.MALE -> R.drawable.male
+                Gender.FEMALE -> R.drawable.female
+                Gender.UNDEFINED -> R.drawable.user
+            })
+            .crossfade(true)
+            .build(),
+        name = userName,
+        age = userAge,
+        gender = userGender
+    )
+}
+
+@Composable
 fun PanelSessionProfile(
     profileImage: Any?,
     name: String,
@@ -162,11 +213,13 @@ fun PanelSessionProfile(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
-                    .border(3.dp, when (gender) {
-                        Gender.MALE -> blue
-                        Gender.FEMALE -> pink
-                        Gender.UNDEFINED -> black
-                    }, CircleShape),
+                    .border(
+                        3.dp, when (gender) {
+                            Gender.MALE -> blue
+                            Gender.FEMALE -> pink
+                            Gender.UNDEFINED -> black
+                        }, CircleShape
+                    ),
                 model = profileImage,
                 contentDescription = stringResource(id = R.string.txt_cd_profile_image),
                 placeholder = painterResource(id = R.drawable.user),

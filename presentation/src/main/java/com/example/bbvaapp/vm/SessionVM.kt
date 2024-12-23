@@ -3,8 +3,6 @@ package com.example.bbvaapp.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbvaapp.model.CloseSessionUiState
-import com.example.bbvaapp.model.LoginError
-import com.example.bbvaapp.model.LoginUiState
 import com.example.bbvaapp.model.SessionInfoError
 import com.example.bbvaapp.model.SessionInfoUiState
 import com.example.bbvaapp.model.SessionUiState
