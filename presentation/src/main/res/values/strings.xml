@@ -30,7 +30,7 @@
     <string name="err_to_do_login">Error to do login</string>
     <string name="err_to_fetch_session_info">Error to fetch session info</string>
     <string name="err_to_close_session">Error to close session</string>
-    <string name="err_to_fetch_image">Error to fetch image</string>
+    <string name="err_to_fetch_image">Could not load profile photo</string>
     <string name="err_ttl_dialog">Failure</string>
     <string name="success_inf_dialog">Successful</string>
 
