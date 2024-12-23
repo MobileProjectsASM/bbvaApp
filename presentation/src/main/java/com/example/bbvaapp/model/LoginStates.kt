@@ -39,5 +39,6 @@ enum class InputPasswordError {
 
 sealed class LoginError {
     data class ServerError(val code: Int, val description: String): LoginError()
+    data object NotConnection: LoginError()
     data object Unknown: LoginError()
 }

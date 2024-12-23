@@ -1,5 +1,7 @@
 package com.example.bbvaapp.di.modules
 
+import com.example.data.sources.hardware.ConnectionSource
+import com.example.data.sources.hardware.ConnectionSourceMobile
 import com.example.data.sources.hardware.LoggerSourceMobile
 import com.example.data.sources.local.abstract_locals.AuthLocalSource
 import com.example.data.sources.local.impl.shared_preferences.AuthLocalSourceImpl
@@ -33,4 +35,8 @@ abstract class SourceModule {
     @ViewModelScoped
     @Binds
     abstract fun providesLoggerSource(loggerSourceMobile: LoggerSourceMobile): Logger
+
+    @ViewModelScoped
+    @Binds
+    abstract fun getConnection(connectionSourceMobile: ConnectionSourceMobile): ConnectionSource
 }

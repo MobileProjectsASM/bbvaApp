@@ -16,6 +16,7 @@
     <string name="txt_btn_login">LOGIN</string>
     <string name="txt_btn_create_account">CREATE ACCOUNT</string>
     <string name="txt_btn_ok">OK</string>
+    <string name="txt_btn_retry">RETRY</string>
     <string name="txt_label_user_age">Age:</string>
     <string name="txt_label_user_gender">Gender:</string>
     <string name="txt_label_user_description">Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
@@ -36,4 +37,5 @@
     <string name="base_url_auth">https://private-6eaf4c-examenbbva.apiary-mock.com/</string>
     <string name="base_url_media">https://dog.ceo/api/breeds/image/</string>
     <string name="preferences_file_key_session">SessionInfo</string>
+    <string name="err_connection">There is no internet connection\n</string>
 </resources>

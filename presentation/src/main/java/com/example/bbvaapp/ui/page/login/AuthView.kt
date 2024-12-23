@@ -137,6 +137,28 @@ fun LoginState(
                 text = stringResource(R.string.err_to_do_login),
                 onDismissRequest = loginVM::resetLoginState
             )
+            LoginError.NotConnection -> {
+                val loginFormState: LoginFormUiState by loginVM.loginFormUiState.collectAsStateWithLifecycle()
+                MessageDialog(
+                    modifier = Modifier
+                        .padding(vertical = 20.dp)
+                        .height(300.dp),
+                    image = painterResource(id = R.drawable.failure),
+                    titleDialog = stringResource(R.string.err_ttl_dialog),
+                    text = stringResource(R.string.err_connection),
+                    customButton = {
+                        DefaultButton(
+                            text = stringResource(id = R.string.txt_btn_retry)
+                        ) {
+                            loginVM.loginUser(
+                                email = loginFormState.emailUiState.value,
+                                password = loginFormState.passwordUiState.value
+                            )
+                        }
+                    },
+                    onDismissRequest = loginVM::resetLoginState
+                )
+            }
         }
         LoginUiState.Loading -> CircularProgressDialog()
         is LoginUiState.Success -> LaunchedEffect(true) {

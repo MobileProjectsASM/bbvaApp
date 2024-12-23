@@ -10,9 +10,11 @@ import com.example.bbvaapp.model.LoginError
 import com.example.bbvaapp.model.LoginFormUiState
 import com.example.bbvaapp.model.LoginUiState
 import com.example.domain.entities.Result
+import com.example.domain.errors.ErrorType
 import com.example.domain.errors.Failure
 import com.example.domain.use_cases.LoginUC
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -38,6 +40,7 @@ class LoginVM @Inject constructor(
     fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             _loginState.update { LoginUiState.Loading }
+            delay(2000)
             val result = loginUC.execute(params = LoginUC.Params("", email, password))
             _loginState.update {
                 when (result) {
@@ -45,7 +48,10 @@ class LoginVM @Inject constructor(
                         LoginUiState.Success(result.data.userId)
                     }
                     is Result.Unsuccess -> when (val failure = result.failure) {
-                        is Failure.OtherError -> LoginUiState.Failure(LoginError.Unknown)
+                        is Failure.OtherError -> LoginUiState.Failure( when (failure.errorType) {
+                            ErrorType.CONNECTION -> LoginError.NotConnection
+                            ErrorType.UNKNOWN -> LoginError.Unknown
+                        })
                         is Failure.ServerError -> LoginUiState.Failure(LoginError.ServerError(failure.code, failure.description))
                     }
                 }

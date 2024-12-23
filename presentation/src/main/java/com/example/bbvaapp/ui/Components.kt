@@ -371,6 +371,7 @@ fun MessageDialog(
     image: Painter,
     titleDialog: String,
     text: String,
+    customButton: (@Composable () -> Unit)? = null,
     onDismissRequest: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -409,6 +410,10 @@ fun MessageDialog(
                     text = stringResource(id = R.string.txt_btn_ok),
                     onClickButton = onDismissRequest
                 )
+                Spacer(modifier = Modifier.height(10.dp))
+                if (customButton != null) {
+                    customButton()
+                }
             }
         }
     }
