@@ -5,17 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,19 +20,17 @@ import com.example.bbvaapp.ui.navigation.MainNavigation
 import com.example.bbvaapp.ui.navigation.Route
 import com.example.bbvaapp.ui.theme.BbvaAppTheme
 import com.example.bbvaapp.utils.MessageResolver
-import com.example.bbvaapp.vm.SessionViewModel
+import com.example.bbvaapp.vm.SessionVM
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val sessionViewModel: SessionViewModel by viewModels()
+    private val sessionVM: SessionVM by viewModels()
 
     @Inject
     lateinit var messageResolver: MessageResolver
@@ -47,7 +40,7 @@ class MainActivity : ComponentActivity() {
         var keepSplashScreen = true
         super.onCreate(savedInstanceState)
         splashScreen.setKeepOnScreenCondition { keepSplashScreen }
-        launchOverStarted(sessionViewModel.sessionState::collect) { sessionState ->
+        launchOverStarted(sessionVM.sessionState::collect) { sessionState ->
             when (sessionState) {
                 SessionUiState.Fail -> {
                     keepSplashScreen = true
@@ -58,16 +51,18 @@ class MainActivity : ComponentActivity() {
                     keepSplashScreen = false
                     setContent {
                         BbvaAppTheme {
-                            BBVAScaffold(
-                                initRoute = if (sessionState.isActive) Route.Dashboard.route else Route.Login.route,
-                                messageResolver = messageResolver
-                            )
+                            Surface {
+                                BBVAScaffold(
+                                    initRoute = if (sessionState.isActive) Route.Dashboard.route else Route.Login.route,
+                                    messageResolver = messageResolver
+                                )
+                            }
                         }
                     }
                 }
             }
         }
-        sessionViewModel.verifySessionActive()
+        sessionVM.verifySessionActive()
         enableEdgeToEdge()
     }
 }

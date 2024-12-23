@@ -1,9 +1,17 @@
 <resources>
-    <string name="app_name">bbvaApp</string>
+    <string name="app_name">Store</string>
 
+    <string name="txt_ttl_login_panel">Welcome to Store!!</string>
+    <string name="txt_inf_login_panel">Login to continue</string>
+    <string name="txt_label_email_login">Email</string>
+    <string name="txt_label_password">Password</string>
+    <string name="txt_cd_li_email">Email icon</string>
+    <string name="txt_cd_icon_app">Icon app</string>
     <string name="txt_cd_ti_password">Password visibility</string>
     <string name="txt_cd_li_password">Password icon</string>
     <string name="txt_cd_error_input_icon">Error input icon</string>
+    <string name="txt_btn_login">LOGIN</string>
+    <string name="txt_btn_create_account">CREATE ACCOUNT</string>
     <string name="err_to_verify_session">An error occurred while verifying the session</string>
     <string name="err_empty_field">Empty field</string>
     <string name="err_min_8_characters">Must be at least 8 characters long</string>

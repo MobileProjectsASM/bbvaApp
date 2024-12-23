@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SessionViewModel @Inject constructor(
+class SessionVM @Inject constructor(
     private val verifySessionUC: VerifySessionUC
 ): ViewModel() {
     companion object {
