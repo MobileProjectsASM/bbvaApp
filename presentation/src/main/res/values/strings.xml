@@ -12,6 +12,7 @@
     <string name="txt_cd_li_password">Password icon</string>
     <string name="txt_cd_error_input_icon">Error input icon</string>
     <string name="txt_cd_profile_image">Profile image</string>
+    <string name="txt_cd_btn_logout">Logout button</string>
     <string name="txt_btn_login">LOGIN</string>
     <string name="txt_btn_create_account">CREATE ACCOUNT</string>
     <string name="txt_btn_ok">OK</string>

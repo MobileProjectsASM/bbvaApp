@@ -36,7 +36,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,7 +43,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -56,7 +54,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -300,16 +297,19 @@ fun DefaultButton(
 
 @Composable
 fun DefaultImageButton(
+    modifier: Modifier = Modifier,
     imageSize: Dp = 50.dp,
-    @DrawableRes iconButton: Int,
+    iconButton: ImageVector,
     @StringRes cdIconButton: Int,
+    iconColor: Color,
     onClickButton: (() -> Unit)? = null
 ) {
-    TextButton(modifier = Modifier.size(70.dp), onClick = { onClickButton?.invoke() }) {
-        Image(
+    TextButton(modifier = modifier.size(imageSize + 20.dp), onClick = { onClickButton?.invoke() }) {
+        Icon(
             modifier = Modifier.size(imageSize),
-            painter = painterResource(id = iconButton),
-            contentDescription = stringResource(id = cdIconButton)
+            imageVector = iconButton,
+            contentDescription = stringResource(id = cdIconButton),
+            tint = iconColor
         )
     }
 }

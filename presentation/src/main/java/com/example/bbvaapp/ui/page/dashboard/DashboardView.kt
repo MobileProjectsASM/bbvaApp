@@ -1,8 +1,10 @@
 package com.example.bbvaapp.ui.page.dashboard
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,6 +39,7 @@ import com.example.bbvaapp.model.SessionInfoError
 import com.example.bbvaapp.model.SessionInfoUiState
 import com.example.bbvaapp.ui.BBVAFontFamily
 import com.example.bbvaapp.ui.CircularProgressDialog
+import com.example.bbvaapp.ui.DefaultImageButton
 import com.example.bbvaapp.ui.DefaultText
 import com.example.bbvaapp.ui.MessageDialog
 import com.example.bbvaapp.ui.theme.black
@@ -128,6 +132,19 @@ fun PanelSessionProfile(
                 .padding(vertical = 15.dp, horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                DefaultImageButton(
+                    imageSize = 32.dp,
+                    iconButton = Icons.AutoMirrored.Filled.Logout,
+                    cdIconButton = R.string.txt_cd_btn_logout,
+                    iconColor = Color.Red
+                ) {
+
+                }
+            }
             Spacer(modifier = Modifier.height(20.dp))
             AsyncImage(
                 modifier = Modifier
