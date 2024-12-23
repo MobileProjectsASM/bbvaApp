@@ -18,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -135,7 +134,7 @@ fun LoginState(
                     .height(250.dp),
                 image = painterResource(id = R.drawable.failure),
                 titleDialog = stringResource(R.string.err_ttl_dialog),
-                text = stringResource(R.string.err_unknown_to_do_login),
+                text = stringResource(R.string.err_to_do_login),
                 onDismissRequest = loginVM::resetLoginState
             )
         }

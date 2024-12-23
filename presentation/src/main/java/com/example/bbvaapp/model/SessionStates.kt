@@ -30,3 +30,9 @@ sealed class SessionInfoError {
     data class ServerError(val code: Int, val description: String): SessionInfoError()
     data object Unknown: SessionInfoError()
 }
+
+sealed class CloseSessionUiState {
+    data object Loading: CloseSessionUiState()
+    data class Success(val userId: String): CloseSessionUiState()
+    data object Fail: CloseSessionUiState()
+}

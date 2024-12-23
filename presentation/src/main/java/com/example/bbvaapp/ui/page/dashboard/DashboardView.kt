@@ -3,7 +3,6 @@ package com.example.bbvaapp.ui.page.dashboard
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.bbvaapp.R
+import com.example.bbvaapp.model.CloseSessionUiState
 import com.example.bbvaapp.model.SessionInfoError
 import com.example.bbvaapp.model.SessionInfoUiState
 import com.example.bbvaapp.ui.BBVAFontFamily
@@ -42,6 +43,7 @@ import com.example.bbvaapp.ui.CircularProgressDialog
 import com.example.bbvaapp.ui.DefaultImageButton
 import com.example.bbvaapp.ui.DefaultText
 import com.example.bbvaapp.ui.MessageDialog
+import com.example.bbvaapp.ui.navigation.Route
 import com.example.bbvaapp.ui.theme.black
 import com.example.bbvaapp.ui.theme.blue
 import com.example.bbvaapp.ui.theme.pink
@@ -75,22 +77,30 @@ fun DashboardView(
                     .height(250.dp),
                 image = painterResource(id = R.drawable.failure),
                 titleDialog = stringResource(R.string.err_ttl_dialog),
-                text = stringResource(R.string.err_unknown_to_fetch_session_info),
+                text = stringResource(R.string.err_to_fetch_session_info),
                 onDismissRequest = sessionVM::resetSessionInfoState
             )
         }
         SessionInfoUiState.Loading -> CircularProgressDialog()
         is SessionInfoUiState.Success -> Dashboard(
+            sessionVM = sessionVM,
+            userId = state.userId,
             profileImage = state.userImage,
             name = state.userName,
             age = state.userAge,
             gender = state.userGender
         )
     }
+    LogoutState(
+        sessionVM = sessionVM,
+        navController = navController
+    )
 }
 
 @Composable
 fun Dashboard(
+    sessionVM: SessionVM,
+    userId: String,
     profileImage: Any?,
     name: String,
     age: Int,
@@ -105,8 +115,10 @@ fun Dashboard(
         PanelSessionProfile(
             profileImage = profileImage,
             name = name,
-            gender = gender
-        )
+            gender = gender,
+        ) {
+            sessionVM.logout(userId)
+        }
         PanelSessionDetailSession(
             age = age,
             gender = gender
@@ -119,7 +131,8 @@ fun Dashboard(
 fun PanelSessionProfile(
     profileImage: Any?,
     name: String,
-    gender: Gender
+    gender: Gender,
+    logout: () -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -140,10 +153,9 @@ fun PanelSessionProfile(
                     imageSize = 32.dp,
                     iconButton = Icons.AutoMirrored.Filled.Logout,
                     cdIconButton = R.string.txt_cd_btn_logout,
-                    iconColor = Color.Red
-                ) {
-
-                }
+                    iconColor = Color.Red,
+                    onClickButton = logout
+                )
             }
             Spacer(modifier = Modifier.height(20.dp))
             AsyncImage(
@@ -219,6 +231,34 @@ fun PanelSessionDetailSession(
                 textAlign = TextAlign.Justify
             )
             Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+}
+
+@Composable
+fun LogoutState(
+    sessionVM: SessionVM,
+    navController: NavHostController
+) {
+    val closeSessionState: CloseSessionUiState? by sessionVM.closeSessionState.collectAsStateWithLifecycle()
+    if (closeSessionState == null) return
+    when (val state: CloseSessionUiState = closeSessionState as CloseSessionUiState) {
+        is CloseSessionUiState.Fail -> MessageDialog(
+            modifier = Modifier
+                .padding(vertical = 20.dp)
+                .height(250.dp),
+            image = painterResource(id = R.drawable.failure),
+            titleDialog = stringResource(R.string.err_ttl_dialog),
+            text = stringResource(R.string.err_to_close_session),
+            onDismissRequest = sessionVM::resetCloseSessionState
+        )
+        is CloseSessionUiState.Loading -> CircularProgressDialog()
+        is CloseSessionUiState.Success -> LaunchedEffect(true) {
+            navController.navigate(Route.Login.route) {
+                popUpTo(Route.Dashboard.createRoute(state.userId)) {
+                    inclusive = true
+                }
+            }
         }
     }
 }
