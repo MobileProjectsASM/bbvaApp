@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">bbvaApp</string>
+
+    <string name="err_to_verify_session">An error occurred while verifying the session</string>
+    <string name="err_empty_field">Empty field</string>
+    <string name="err_min_8_characters">Must be at least 8 characters long</string>
+    <string name="err_least_one_uppercase">Must have at least one capital letter</string>
+    <string name="err_least_one_number">Must have at least one number</string>
+    <string name="err_least_one_character">Must have at least one of the following characters: @$!%*?&amp;#</string>
+    <string name="err_invalid_email">Invalid email</string>
+
     <string name="base_url_auth">https://private-6eaf4c-examenbbva.apiary-mock.com/</string>
     <string name="base_url_media">https://dog.ceo/</string>
     <string name="preferences_file_key_session">SessionInfo</string>
