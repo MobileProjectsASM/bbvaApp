@@ -10,9 +10,13 @@
     <string name="txt_cd_ti_password">Password visibility</string>
     <string name="txt_cd_li_password">Password icon</string>
     <string name="txt_cd_error_input_icon">Error input icon</string>
+    <string name="txt_cd_profile_image">Profile image</string>
     <string name="txt_btn_login">LOGIN</string>
     <string name="txt_btn_create_account">CREATE ACCOUNT</string>
     <string name="txt_btn_ok">OK</string>
+    <string name="txt_label_user_age">Age:</string>
+    <string name="txt_label_user_gender">Gender:</string>
+    <string name="txt_label_user_description">Description:</string>
     <string name="err_to_verify_session">An error occurred while verifying the session</string>
     <string name="err_empty_field">Empty field</string>
     <string name="err_min_8_characters">Must be at least 8 characters long</string>

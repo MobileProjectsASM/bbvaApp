@@ -10,7 +10,7 @@ import com.example.domain.use_cases.base.UseCaseSync
 import com.example.domain.utils.Logger
 import javax.inject.Inject
 
-class FetchUserUC @Inject constructor(
+class FetchSessionInfoUC @Inject constructor(
     private val logger: Logger,
     private val authRepository: AuthRepository,
     private val mediaRepository: MediaRepository

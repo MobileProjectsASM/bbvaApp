@@ -54,7 +54,8 @@ class MainActivity : ComponentActivity() {
                             Surface {
                                 BBVAScaffold(
                                     initRoute = if (sessionState.isActive) Route.Dashboard.route else Route.Login.route,
-                                    messageResolver = messageResolver
+                                    messageResolver = messageResolver,
+                                    sessionVM = sessionVM
                                 )
                             }
                         }
@@ -70,7 +71,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BBVAScaffold(
     initRoute: String,
-    messageResolver: MessageResolver
+    messageResolver: MessageResolver,
+    sessionVM: SessionVM
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -80,7 +82,8 @@ fun BBVAScaffold(
         MainNavigation(
             initRoute,
             innerPadding,
-            messageResolver
+            messageResolver,
+            sessionVM
         )
     }
 }

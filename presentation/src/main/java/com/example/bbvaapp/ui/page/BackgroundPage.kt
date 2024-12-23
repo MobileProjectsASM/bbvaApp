@@ -1,4 +1,4 @@
-package com.example.bbvaapp.ui.page.login
+package com.example.bbvaapp.ui.page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import com.example.bbvaapp.R
 import com.example.bbvaapp.ui.BBVAFontFamily
 
 @Composable
-fun BackgroundLogin(content: @Composable () -> Unit) {
+fun BackgroundPage(content: @Composable () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
