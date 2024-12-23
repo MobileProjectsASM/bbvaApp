@@ -48,8 +48,17 @@ dependencies {
 
     implementation(libs.material)
 
+    //ICONS
+    implementation(libs.androidx.material.icons.extended)
+
+    //NAVIGATION
+    implementation(libs.androidx.navigation.compose)
+
     //Splash Screen
     implementation(libs.splash.screen)
+
+    //Load image
+    implementation(libs.coil.compose)
 
     //DI
     implementation(libs.hilt.android)
