@@ -140,7 +140,7 @@ fun LoginState(
         }
         LoginUiState.Loading -> CircularProgressDialog()
         is LoginUiState.Success -> LaunchedEffect(true) {
-            navController.navigate(Route.Dashboard.createRoute(state.userId)) {
+            navController.navigate(Route.Dashboard.route) {
                 popUpTo(Route.Login.route) {
                     inclusive = true
                 }

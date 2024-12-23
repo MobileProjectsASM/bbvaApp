@@ -295,7 +295,7 @@ fun LogoutState(
 ) {
     val closeSessionState: CloseSessionUiState? by sessionVM.closeSessionState.collectAsStateWithLifecycle()
     if (closeSessionState == null) return
-    when (val state: CloseSessionUiState = closeSessionState as CloseSessionUiState) {
+    when (closeSessionState as CloseSessionUiState) {
         is CloseSessionUiState.Fail -> MessageDialog(
             modifier = Modifier
                 .padding(vertical = 20.dp)
@@ -308,7 +308,7 @@ fun LogoutState(
         is CloseSessionUiState.Loading -> CircularProgressDialog()
         is CloseSessionUiState.Success -> LaunchedEffect(true) {
             navController.navigate(Route.Login.route) {
-                popUpTo(Route.Dashboard.createRoute(state.userId)) {
+                popUpTo(Route.Dashboard.route) {
                     inclusive = true
                 }
             }
