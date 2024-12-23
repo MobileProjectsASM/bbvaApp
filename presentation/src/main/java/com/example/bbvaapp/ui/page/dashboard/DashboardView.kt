@@ -306,12 +306,15 @@ fun LogoutState(
             onDismissRequest = sessionVM::resetCloseSessionState
         )
         is CloseSessionUiState.Loading -> CircularProgressDialog()
-        is CloseSessionUiState.Success -> LaunchedEffect(true) {
-            navController.navigate(Route.Login.route) {
-                popUpTo(Route.Dashboard.route) {
-                    inclusive = true
+        is CloseSessionUiState.Success -> {
+            LaunchedEffect(true) {
+                navController.navigate(Route.Login.route) {
+                    popUpTo(Route.Dashboard.route) {
+                        inclusive = true
+                    }
                 }
             }
+            sessionVM.resetCloseSessionState()
         }
     }
 }
