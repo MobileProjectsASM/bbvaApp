@@ -1,9 +1,11 @@
 package com.example.bbvaapp.ui.navigation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -18,7 +20,6 @@ import com.example.bbvaapp.vm.LoginVM
 fun MainNavigation(
     initRoute: String,
     innerPadding: PaddingValues,
-    snackBarHostState: SnackbarHostState,
     messageResolver: MessageResolver
 ) {
     val navigationController = rememberNavController()
@@ -33,13 +34,15 @@ fun MainNavigation(
                 AuthView(
                     loginVM = loginVM,
                     navController = navigationController,
-                    messageResolver = messageResolver,
-                    snackBarHostState = snackBarHostState
+                    messageResolver = messageResolver
                 )
             }
         }
-        composable(Route.Dashboard.route) {
-
+        composable(Route.Dashboard.route) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString(Route.Dashboard.userIdArg) ?: ""
+            Box(contentAlignment = Alignment.Center) {
+                Text(text = "Dashboard $userId")
+            }
         }
     }
 }

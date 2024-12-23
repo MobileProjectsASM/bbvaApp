@@ -1,9 +1,7 @@
 package com.example.bbvaapp.ui.page.login
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,13 +13,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -30,40 +28,35 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.bbvaapp.R
 import com.example.bbvaapp.model.InputState
+import com.example.bbvaapp.model.LoginError
 import com.example.bbvaapp.model.LoginFormUiState
 import com.example.bbvaapp.model.LoginUiState
 import com.example.bbvaapp.ui.BVVAGeneralTitle
+import com.example.bbvaapp.ui.CircularProgressDialog
 import com.example.bbvaapp.ui.DefaultButton
-import com.example.bbvaapp.ui.DefaultImageButton
 import com.example.bbvaapp.ui.DefaultOutlinedTextFieldLI
 import com.example.bbvaapp.ui.DefaultText
 import com.example.bbvaapp.ui.DefaultTextButton
+import com.example.bbvaapp.ui.MessageDialog
 import com.example.bbvaapp.ui.PasswordOutlinedTextField
+import com.example.bbvaapp.ui.navigation.Route
 import com.example.bbvaapp.utils.MessageResolver
 import com.example.bbvaapp.vm.LoginVM
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun AuthView(
     loginVM: LoginVM,
     navController: NavHostController,
-    messageResolver: MessageResolver,
-    snackBarHostState: SnackbarHostState
+    messageResolver: MessageResolver
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     AuthenticationSection(
         loginVM = loginVM,
         messageResolver = messageResolver
     )
-//    LoginState(
-//        loginVM = loginVM,
-//        navController = navController,
-//        messageResolver = messageResolver,
-//        snackBarHostState = snackBarHostState
-//    )
+    LoginState(
+        loginVM = loginVM,
+        navController = navController
+    )
 }
 
 @Composable
@@ -113,49 +106,50 @@ fun PanelLogin(
             FormLogin(
                 loginVM = loginVM,
                 messageResolver = messageResolver
-            ) {
-
-            }
+            )
         }
     }
 }
 
-//@Composable
-//fun LoginState(
-//    loginVM: LoginVM,
-//    navController: NavHostController,
-//    messageResolver: MessageResolver,
-//    snackBarHostState: SnackbarHostState
-//) {
-//    val loginState: LoginUiState? by loginVM.loginState.collectAsStateWithLifecycle()
-//    LaunchedEffect(snackBarHostState.currentSnackbarData) {
-//        if (snackBarHostState.currentSnackbarData == null) {
-//            loginVM.resetLoginState()
-//        }
-//    }
-//    if (loginUiState == null || loginUiState is LoginUiState.SentOtp) return
-//    when (loginUiState) {
-//        is LoginUiState.Failure -> {
-//            val message = messageResolver.getErrorLogin((loginUiState as LoginUiState.Failure).loginError)
-//            LaunchedEffect(true) {
-//                snackBarHostState.showSnackbar(message, withDismissAction = true)
-//            }
-//        }
-//        is LoginUiState.Loading -> CircularProgressDialog()
-//        is LoginUiState.RegisteredUser -> LaunchedEffect(true) {
-//            navController.navigate(MainPage.createRoute((loginUiState as LoginUiState.RegisteredUser).gamerId))
-//        }
-//        else -> LaunchedEffect(true) {
-//            navController.navigate(CreateAccount.createRoute((loginUiState as LoginUiState.UnregisteredUser).userId))
-//        }
-//    }
-//}
+@Composable
+fun LoginState(
+    loginVM: LoginVM,
+    navController: NavHostController
+) {
+    val loginState: LoginUiState? by loginVM.loginState.collectAsStateWithLifecycle()
+    if (loginState == null) return
+    when (val state: LoginUiState = loginState as LoginUiState) {
+        is LoginUiState.Failure -> when (val error = state.loginError) {
+            is LoginError.ServerError -> MessageDialog(
+                modifier = Modifier
+                    .padding(vertical = 20.dp)
+                    .height(250.dp),
+                image = painterResource(id = R.drawable.failure),
+                titleDialog = "${error.code}",
+                text = error.description,
+                onDismissRequest = loginVM::resetLoginState
+            )
+            LoginError.Unknown -> MessageDialog(
+                modifier = Modifier
+                    .padding(vertical = 20.dp)
+                    .height(250.dp),
+                image = painterResource(id = R.drawable.failure),
+                titleDialog = stringResource(R.string.err_ttl_dialog),
+                text = stringResource(R.string.err_unknown_to_do_login),
+                onDismissRequest = loginVM::resetLoginState
+            )
+        }
+        LoginUiState.Loading -> CircularProgressDialog()
+        is LoginUiState.Success -> LaunchedEffect(true) {
+            navController.navigate(Route.Dashboard.createRoute(state.userId))
+        }
+    }
+}
 
 @Composable
 fun FormLogin(
     loginVM: LoginVM,
-    messageResolver: MessageResolver,
-    onSubmit: () -> Unit,
+    messageResolver: MessageResolver
 ) {
     val loginFormState: LoginFormUiState by loginVM.loginFormUiState.collectAsStateWithLifecycle()
     val userIdErrors: List<String> = when (val emailUiState = loginFormState.emailUiState.state) {
@@ -202,14 +196,16 @@ fun FormLogin(
             DefaultButton(
                 text = stringResource(id = R.string.txt_btn_login),
                 enable = loginFormState.emailUiState.state is InputState.Success && loginFormState.passwordUiState.state is InputState.Success,
-                onClickButton = onSubmit
-            )
+            ) {
+                loginVM.loginUser(
+                    email = loginFormState.emailUiState.value,
+                    password = loginFormState.passwordUiState.value
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             DefaultTextButton(
                 text = stringResource(id = R.string.txt_btn_create_account)
-            ) {
-
-            }
+            ) {}
         }
     }
 }

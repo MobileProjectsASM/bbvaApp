@@ -7,11 +7,13 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -357,6 +361,55 @@ fun ProgressDialog(progressContent: @Composable () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             progressContent()
+        }
+    }
+}
+
+@Composable
+fun MessageDialog(
+    modifier: Modifier = Modifier,
+    image: Painter,
+    titleDialog: String,
+    text: String,
+    onDismissRequest: () -> Unit,
+) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = modifier,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(100.dp),
+                    painter = image,
+                    contentDescription = stringResource(
+                        id = R.string.txt_cd_icon_app
+                    )
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = dimensionResource(
+                        id = R.dimen.title_text_size
+                    ).value.sp,
+                    text = titleDialog,
+                    fontFamily = BBVAFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                DefaultText(
+                    text = text,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                DefaultButton(
+                    text = stringResource(id = R.string.txt_btn_ok),
+                    onClickButton = onDismissRequest
+                )
+            }
         }
     }
 }

@@ -80,7 +80,6 @@ fun BBVAScaffold(
         MainNavigation(
             initRoute,
             innerPadding,
-            snackBarHostState,
             messageResolver
         )
     }

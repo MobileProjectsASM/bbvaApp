@@ -12,6 +12,7 @@
     <string name="txt_cd_error_input_icon">Error input icon</string>
     <string name="txt_btn_login">LOGIN</string>
     <string name="txt_btn_create_account">CREATE ACCOUNT</string>
+    <string name="txt_btn_ok">OK</string>
     <string name="err_to_verify_session">An error occurred while verifying the session</string>
     <string name="err_empty_field">Empty field</string>
     <string name="err_min_8_characters">Must be at least 8 characters long</string>
@@ -19,6 +20,9 @@
     <string name="err_least_one_number">Must have at least one number</string>
     <string name="err_least_one_character">Must have at least one of the following characters: @$!%*?&amp;#</string>
     <string name="err_invalid_email">Invalid email</string>
+    <string name="err_unknown_to_do_login">Unknown error to do login</string>
+    <string name="err_ttl_dialog">Failure</string>
+    <string name="success_inf_dialog">Successful</string>
 
     <string name="base_url_auth">https://private-6eaf4c-examenbbva.apiary-mock.com/</string>
     <string name="base_url_media">https://dog.ceo/</string>
