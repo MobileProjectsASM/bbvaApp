@@ -1,5 +1,7 @@
 package com.example.bbvaapp.ui.page.dashboard
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -14,6 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +38,9 @@ import com.example.bbvaapp.ui.BBVAFontFamily
 import com.example.bbvaapp.ui.CircularProgressDialog
 import com.example.bbvaapp.ui.DefaultText
 import com.example.bbvaapp.ui.MessageDialog
+import com.example.bbvaapp.ui.theme.black
+import com.example.bbvaapp.ui.theme.blue
+import com.example.bbvaapp.ui.theme.pink
 import com.example.bbvaapp.utils.MessageResolver
 import com.example.bbvaapp.vm.SessionVM
 import com.example.domain.entities.Gender
@@ -90,7 +100,8 @@ fun Dashboard(
         Spacer(modifier = Modifier.height(250.dp))
         PanelSessionProfile(
             profileImage = profileImage,
-            name = name
+            name = name,
+            gender = gender
         )
         PanelSessionDetailSession(
             age = age,
@@ -103,7 +114,8 @@ fun Dashboard(
 @Composable
 fun PanelSessionProfile(
     profileImage: Any?,
-    name: String
+    name: String,
+    gender: Gender
 ) {
     Card(
         modifier = Modifier
@@ -118,11 +130,19 @@ fun PanelSessionProfile(
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             AsyncImage(
-                modifier = Modifier.size(100.dp),
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    .border(3.dp, when (gender) {
+                        Gender.MALE -> blue
+                        Gender.FEMALE -> pink
+                        Gender.UNDEFINED -> black
+                    }, CircleShape),
                 model = profileImage,
                 contentDescription = stringResource(id = R.string.txt_cd_profile_image),
                 placeholder = painterResource(id = R.drawable.user),
-                error = painterResource(id = R.drawable.user)
+                error = painterResource(id = R.drawable.user),
+                contentScale = ContentScale.FillBounds
             )
             Spacer(modifier = Modifier.height(40.dp))
             Text(
